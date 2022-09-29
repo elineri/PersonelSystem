@@ -43,7 +43,7 @@ namespace PersonelSystem.Models
 
         public async Task<Department> Update(Department Entity)
         {
-            var result = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentId == id);
+            var result = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentId == Entity.DepartmentId);
             if (result == null)
             {
                 return null;

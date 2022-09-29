@@ -54,7 +54,7 @@ namespace PersonelSystem.Models
             result.LastName = Entity.LastName;
             result.Email = Entity.Email;
             result.PhoneNumber = Entity.PhoneNumber;
-            result.Gender = Entity.Gender;
+            result.GenderId = Entity.GenderId;
             result.StreetAdress = Entity.StreetAdress;
             result.City = Entity.City;
             result.ZipCode = Entity.ZipCode;

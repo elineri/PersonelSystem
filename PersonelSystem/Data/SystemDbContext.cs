@@ -17,6 +17,24 @@ namespace PersonelSystem.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Gender
+            modelBuilder.Entity<Gender>().HasData(new Gender
+            {
+                GenderId = 1,
+                GenderName = "Female"
+            });
+            modelBuilder.Entity<Gender>().HasData(new Gender
+            {
+                GenderId = 2,
+                GenderName = "Male"
+            });
+            modelBuilder.Entity<Gender>().HasData(new Gender
+            {
+                GenderId = 3,
+                GenderName = "Other"
+            });
+
+            // Department
             modelBuilder.Entity<Department>().HasData(new Department
             {
                 DepartmentId = 1,
@@ -48,6 +66,7 @@ namespace PersonelSystem.Data
                 DepartmentName = "Administration"
             });
 
+            // Staff
             modelBuilder.Entity<Staff>().HasData(new Staff
             {
                 StaffId = 1,
@@ -55,12 +74,13 @@ namespace PersonelSystem.Data
                 LastName = "Ericstam",
                 Email = "eline@mail.com",
                 PhoneNumber = "070-12312312",
-                Gender = "Female",
+                GenderId = 1,
                 StreetAdress = "Gatan 2",
                 City = "Varberg",
                 ZipCode = "43237",
                 Salary = 30000m,
-                DepartmentId = 4
+                DepartmentId = 4,
+                
             });
             modelBuilder.Entity<Staff>().HasData(new Staff
             {
@@ -69,7 +89,7 @@ namespace PersonelSystem.Data
                 LastName = "Johansson",
                 Email = "oskarj@mail.com",
                 PhoneNumber = "070-12312343",
-                Gender = "Male",
+                GenderId = 2,
                 StreetAdress = "Gatan 5",
                 City = "Göteborg",
                 ZipCode = "43243",
@@ -83,7 +103,7 @@ namespace PersonelSystem.Data
                 LastName = "Scott",
                 Email = "michaels@mail.com",
                 PhoneNumber = "070-43212312",
-                Gender = "Male",
+                GenderId = 2,
                 StreetAdress = "Vägen 12",
                 City = "Kungsbacka",
                 ZipCode = "42345",
@@ -97,7 +117,7 @@ namespace PersonelSystem.Data
                 LastName = "Beesly",
                 Email = "pamb@mail.com",
                 PhoneNumber = "070-12357312",
-                Gender = "Female",
+                GenderId = 1,
                 StreetAdress = "Vägen 32",
                 City = "Göteborg",
                 ZipCode = "43242",
@@ -111,7 +131,7 @@ namespace PersonelSystem.Data
                 LastName = "Halpert",
                 Email = "jimh@mail.com",
                 PhoneNumber = "070-12357398",
-                Gender = "Male",
+                GenderId = 2,
                 StreetAdress = "Vägen 54",
                 City = "Göteborg",
                 ZipCode = "43242",
@@ -125,7 +145,7 @@ namespace PersonelSystem.Data
                 LastName = "Martin",
                 Email = "angelam@mail.com",
                 PhoneNumber = "070-12357312",
-                Gender = "Female",
+                GenderId = 1,
                 StreetAdress = "Gatan 5",
                 City = "Varberg",
                 ZipCode = "43236",
@@ -139,7 +159,7 @@ namespace PersonelSystem.Data
                 LastName = "Flenderson",
                 Email = "tobyf@mail.com",
                 PhoneNumber = "070-56757312",
-                Gender = "Male",
+                GenderId = 2,
                 StreetAdress = "Gatan 76",
                 City = "Varberg",
                 ZipCode = "43238",
@@ -153,7 +173,7 @@ namespace PersonelSystem.Data
                 LastName = "Schrute",
                 Email = "dwights@mail.com",
                 PhoneNumber = "073-56123312",
-                Gender = "Male",
+                GenderId = 2,
                 StreetAdress = "Gatan 7",
                 City = "Varberg",
                 ZipCode = "43236",
