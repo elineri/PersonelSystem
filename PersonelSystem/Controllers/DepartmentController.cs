@@ -3,22 +3,22 @@ using PersonelSystem.Models;
 
 namespace PersonelSystem.Controllers
 {
-    public class StaffController : Controller
+    public class DepartmentController : Controller
     {
-        private readonly StaffRepository _staffRepository;
+        private readonly DepartmentRepository _departmentRepository;
 
-        public StaffController(StaffRepository staffRepository)
+        public DepartmentController(DepartmentRepository departmentRepository)
         {
-            _staffRepository = staffRepository;
+            _departmentRepository = departmentRepository;
         }
 
-        // Get All Staff
+        // Get All Departments
         [HttpGet]
         public async Task<IActionResult> List()
         {
             try
             {
-                return Ok(await _staffRepository.GetAll());
+                return Ok(await _departmentRepository.GetAll());
             }
             catch (Exception)
             {
@@ -26,13 +26,13 @@ namespace PersonelSystem.Controllers
             }
         }
 
-        // Get StaffById
+        // Get Department By Id
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Staff>> Details(int staffId)
+        public async Task<ActionResult<Department>> Details(int departmentId)
         {
             try
             {
-                var result = await _staffRepository.GetSingle(staffId);
+                var result = await _departmentRepository.GetSingle(departmentId);
                 if (result == null)
                 {
                     return NotFound();
@@ -46,18 +46,18 @@ namespace PersonelSystem.Controllers
             }
         }
 
-        // Add Staff
+        // Add Department
         [HttpPost]
-        public async Task<ActionResult<Staff>> AddNewStaff(Staff newStaff)
+        public async Task<ActionResult<Department>> AddNewDepartment(Department newDepartment)
         {
             try
             {
-                if (newStaff == null)
+                if (newDepartment == null)
                 {
                     return BadRequest();
                 }
-                var createdStaff = await _staffRepository.Add(newStaff);
-                return CreatedAtAction(nameof(Details), new { id = newStaff.StaffId }, createdStaff);
+                var createdDepartment = await _departmentRepository.Add(newDepartment);
+                return CreatedAtAction(nameof(Details), new { id = newDepartment.DepartmentId }, createdDepartment);
             }
             catch (Exception)
             {
@@ -66,22 +66,22 @@ namespace PersonelSystem.Controllers
             }
         }
 
-        // Update Staff
+        // Update Department
         [HttpPut("{id}")]
-        public async Task<ActionResult<Staff>> UpdateStaff(int id, Staff staff)
+        public async Task<ActionResult<Department>> UpdateDepartment(int id, Department department)
         {
             try
             {
-                if (id != staff.StaffId)
+                if (id != department.DepartmentId)
                 {
                     return BadRequest("Id does not match");
                 }
-                var staffToUpdate = _staffRepository.GetSingle(id);
-                if (staffToUpdate == null)
+                var depToUpdate = _departmentRepository.GetSingle(id);
+                if (depToUpdate == null)
                 {
-                    return NotFound($"Staff with id {id} was not found");
+                    return NotFound($"Department with id {id} was not found");
                 }
-                return await _staffRepository.Update(staff);
+                return await _departmentRepository.Update(department);
             }
             catch (Exception)
             {
@@ -90,18 +90,18 @@ namespace PersonelSystem.Controllers
             }
         }
 
-        // Delete Staff
-        [HttpDelete("staff{id}")]
-        public async Task<ActionResult<Staff>> DeleteStaff(int id)
+        // Delete Department
+        [HttpDelete("department{id}")]
+        public async Task<ActionResult<Department>> DeleteDepartment(int id)
         {
             try
             {
-                var staffToDelete = _staffRepository.GetSingle(id);
-                if (staffToDelete == null)
+                var depToDelete = _departmentRepository.GetSingle(id);
+                if (depToDelete == null)
                 {
-                    return NotFound($"Staff with id {id} was not found");
+                    return NotFound($"Department with id {id} was not found");
                 }
-                return await _staffRepository.Delete(id);
+                return await _departmentRepository.Delete(id);
             }
             catch (Exception)
             {
