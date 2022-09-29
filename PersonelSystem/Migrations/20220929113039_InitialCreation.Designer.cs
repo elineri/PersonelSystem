@@ -11,7 +11,7 @@ using PersonelSystem.Data;
 namespace PersonelSystem.Migrations
 {
     [DbContext(typeof(SystemDbContext))]
-    [Migration("20220929112856_InitialCreation")]
+    [Migration("20220929113039_InitialCreation")]
     partial class InitialCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
