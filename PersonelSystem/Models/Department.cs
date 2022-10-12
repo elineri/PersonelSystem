@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PersonelSystem.Models
 {
@@ -8,6 +9,7 @@ namespace PersonelSystem.Models
         public int DepartmentId { get; set; }
         [Required]
         public string DepartmentName { get; set; }
-        public virtual ICollection<Staff> Staffs { get; set; }
+        [AllowNull]
+        public virtual ICollection<Staff>? Staffs { get; set; }
     }
 }

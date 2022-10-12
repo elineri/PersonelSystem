@@ -14,38 +14,38 @@ namespace PersonelSystem.Models
 
         public async Task<Staff> Add(Staff newEntity)
         {
-            var result = await _context.Staff.AddAsync(newEntity);
+            var result = await _context.Staffs.AddAsync(newEntity);
             await _context.SaveChangesAsync();
             return result.Entity;
         }
 
         public async Task<Staff> Delete(int id)
         {
-            var result = await _context.Staff.FirstOrDefaultAsync(s => s.StaffId == id);
+            var result = await _context.Staffs.FirstOrDefaultAsync(s => s.StaffId == id);
 
             if (result == null)
             {
                 return null;
             }
 
-            _context.Staff.Remove(result);
+            _context.Staffs.Remove(result);
             await _context.SaveChangesAsync();
             return result;
         }
 
         public async Task<IEnumerable<Staff>> GetAll()
         {
-            return await _context.Staff.ToListAsync();
+            return await _context.Staffs.ToListAsync();
         }
 
         public async Task<Staff> GetSingle(int id)
         {
-            return await _context.Staff.FirstOrDefaultAsync(s => s.StaffId == id);
+            return await _context.Staffs.FirstOrDefaultAsync(s => s.StaffId == id);
         }
 
         public async Task<Staff> Update(Staff Entity)
         {
-            var result = await _context.Staff.FirstOrDefaultAsync(s => s.StaffId == Entity.StaffId);
+            var result = await _context.Staffs.FirstOrDefaultAsync(s => s.StaffId == Entity.StaffId);
             if (result == null)
             {
                 return null;

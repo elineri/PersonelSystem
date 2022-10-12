@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PersonelSystem.Models
 {
@@ -17,8 +18,10 @@ namespace PersonelSystem.Models
         public string ZipCode { get; set; }
         public decimal Salary { get; set; }
         public int DepartmentId { get; set; }
-        public Department Department { get; set; }
+        [AllowNull]
+        public Department? Department { get; set; }
         public int GenderId { get; set; }
-        public Gender Gender { get; set; }
+        [AllowNull]
+        public Gender? Gender { get; set; }
     }
 }

@@ -3,18 +3,20 @@ using PersonelSystem.Models;
 
 namespace PersonelSystem.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class DepartmentController : Controller
     {
-        private readonly DepartmentRepository _departmentRepository;
+        private readonly ISystem<Department> _departmentRepository;
 
-        public DepartmentController(DepartmentRepository departmentRepository)
+        public DepartmentController(ISystem<Department> departmentRepository)
         {
             _departmentRepository = departmentRepository;
         }
 
         // Get All Departments
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> GetAllDepartments()
         {
             try
             {
@@ -28,16 +30,16 @@ namespace PersonelSystem.Controllers
 
         // Get Department By Id
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Department>> Details(int departmentId)
+        public async Task<ActionResult<Department>> GetDepartmentById(int id)
         {
             try
             {
-                var result = await _departmentRepository.GetSingle(departmentId);
-                if (result == null)
+                var department = await _departmentRepository.GetSingle(id);
+                if (department == null)
                 {
                     return NotFound();
                 }
-                return result;
+                return Ok(department);
             }
             catch (Exception)
             {
@@ -48,7 +50,7 @@ namespace PersonelSystem.Controllers
 
         // Add Department
         [HttpPost]
-        public async Task<ActionResult<Department>> AddNewDepartment(Department newDepartment)
+        public async Task<ActionResult<Department>> AddNewDepartment([FromBody]Department newDepartment)
         {
             try
             {
@@ -57,7 +59,7 @@ namespace PersonelSystem.Controllers
                     return BadRequest();
                 }
                 var createdDepartment = await _departmentRepository.Add(newDepartment);
-                return CreatedAtAction(nameof(Details), new { id = newDepartment.DepartmentId }, createdDepartment);
+                return CreatedAtAction(nameof(GetDepartmentById), new { id = createdDepartment.DepartmentId }, createdDepartment);
             }
             catch (Exception)
             {
@@ -67,8 +69,9 @@ namespace PersonelSystem.Controllers
         }
 
         // Update Department
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Department>> UpdateDepartment(int id, Department department)
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Department>> UpdateDepartment([FromRoute]int id, Department department)
         {
             try
             {
@@ -81,7 +84,7 @@ namespace PersonelSystem.Controllers
                 {
                     return NotFound($"Department with id {id} was not found");
                 }
-                return await _departmentRepository.Update(department);
+                return Ok(await _departmentRepository.Update(department));
             }
             catch (Exception)
             {
@@ -91,17 +94,19 @@ namespace PersonelSystem.Controllers
         }
 
         // Delete Department
-        [HttpDelete("department{id}")]
-        public async Task<ActionResult<Department>> DeleteDepartment(int id)
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Department>> DeleteDepartment([FromRoute]int id)
         {
             try
             {
-                var depToDelete = _departmentRepository.GetSingle(id);
+                var depToDelete = await _departmentRepository.GetSingle(id);
                 if (depToDelete == null)
                 {
                     return NotFound($"Department with id {id} was not found");
                 }
-                return await _departmentRepository.Delete(id);
+                await _departmentRepository.Delete(id);
+                return NoContent();
             }
             catch (Exception)
             {

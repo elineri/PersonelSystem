@@ -3,18 +3,20 @@ using PersonelSystem.Models;
 
 namespace PersonelSystem.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class StaffController : Controller
     {
-        private readonly StaffRepository _staffRepository;
+        private readonly ISystem<Staff> _staffRepository;
 
-        public StaffController(StaffRepository staffRepository)
+        public StaffController(ISystem<Staff> staffRepository)
         {
             _staffRepository = staffRepository;
         }
 
         // Get All Staff
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> GetAllStaff()
         {
             try
             {
@@ -26,18 +28,18 @@ namespace PersonelSystem.Controllers
             }
         }
 
-        // Get StaffById
+        // Get Staff By Id
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Staff>> Details(int staffId)
+        public async Task<ActionResult<Staff>> GetStaffById(int id)
         {
             try
             {
-                var result = await _staffRepository.GetSingle(staffId);
+                var result = await _staffRepository.GetSingle(id);
                 if (result == null)
                 {
                     return NotFound();
                 }
-                return result;
+                return Ok(result);
             }
             catch (Exception)
             {
@@ -48,7 +50,7 @@ namespace PersonelSystem.Controllers
 
         // Add Staff
         [HttpPost]
-        public async Task<ActionResult<Staff>> AddNewStaff(Staff newStaff)
+        public async Task<ActionResult<Staff>> AddNewStaff([FromBody]Staff newStaff)
         {
             try
             {
@@ -57,7 +59,7 @@ namespace PersonelSystem.Controllers
                     return BadRequest();
                 }
                 var createdStaff = await _staffRepository.Add(newStaff);
-                return CreatedAtAction(nameof(Details), new { id = newStaff.StaffId }, createdStaff);
+                return CreatedAtAction(nameof(GetStaffById), new { id = createdStaff.StaffId }, createdStaff);
             }
             catch (Exception)
             {
@@ -67,8 +69,9 @@ namespace PersonelSystem.Controllers
         }
 
         // Update Staff
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Staff>> UpdateStaff(int id, Staff staff)
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Staff>> UpdateStaff([FromRoute]int id, Staff staff)
         {
             try
             {
@@ -81,7 +84,7 @@ namespace PersonelSystem.Controllers
                 {
                     return NotFound($"Staff with id {id} was not found");
                 }
-                return await _staffRepository.Update(staff);
+                return Ok(await _staffRepository.Update(staff));
             }
             catch (Exception)
             {
@@ -91,17 +94,19 @@ namespace PersonelSystem.Controllers
         }
 
         // Delete Staff
-        [HttpDelete("staff{id}")]
-        public async Task<ActionResult<Staff>> DeleteStaff(int id)
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Staff>> DeleteStaff([FromRoute]int id)
         {
             try
             {
-                var staffToDelete = _staffRepository.GetSingle(id);
+                var staffToDelete = await _staffRepository.GetSingle(id);
                 if (staffToDelete == null)
                 {
                     return NotFound($"Staff with id {id} was not found");
                 }
-                return await _staffRepository.Delete(id);
+                await _staffRepository.Delete(id);
+                return NoContent();
             }
             catch (Exception)
             {

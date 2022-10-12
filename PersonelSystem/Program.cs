@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PersonelSystem.Data;
+using PersonelSystem.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SystemDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("Connection")));
 
+builder.Services.AddScoped<ISystem<Department>, DepartmentRepository>();
+builder.Services.AddScoped<ISystem<Staff>, StaffRepository>();
+
+builder.Services.AddCors((setup) =>
+{
+    setup.AddPolicy("default", (options) =>
+    {
+        options.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("default");
 
 app.UseHttpsRedirection();
 

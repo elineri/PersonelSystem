@@ -5,12 +5,12 @@ namespace PersonelSystem.Data
 {
     public class SystemDbContext : DbContext
     {
-        public SystemDbContext(DbContextOptions<SystemDbContext> options) : base(options)
+        public SystemDbContext(DbContextOptions options) : base(options)
         {
 
         }
 
-        public DbSet<Staff> Staff { get; set; }
+        public DbSet<Staff> Staffs { get; set; }
         public DbSet<Department> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
